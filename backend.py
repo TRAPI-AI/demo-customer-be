@@ -5,6 +5,8 @@ from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 import requests
 import json
+import os
+from dotenv import load_dotenv
 
 # Initializing Flask app
 app = Flask(__name__)
