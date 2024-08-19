@@ -26,7 +26,7 @@ def silverrail_shop_tickets():
         response.raise_for_status()
         return Response(response.content, mimetype="text/xml")
     except requests.exceptions.RequestException as e:
-        error_message = f"<error>Failed to fetch data from SilverRail API: {e}</error>"
+        error_message = f"<error>Failed to fetch data from SilverRails API: {e}</error>"
         print(error_message)
         return Response(error_message, status=500, mimetype="text/xml")
 
