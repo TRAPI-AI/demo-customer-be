@@ -1,6 +1,4 @@
 # demo-customer-be
-import xml.etree.ElementTree as ET
-from lxml import etree
 from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 import requests
