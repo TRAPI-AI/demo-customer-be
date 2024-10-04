@@ -95,3 +95,5 @@ dist
 # Gatsby files
 .cache/
 # Comment in the public line in if your
+venv/
+serviceAccountKey.json
