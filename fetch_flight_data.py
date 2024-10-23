@@ -67,4 +67,4 @@ def fetch_flight_data():
 if __name__ == '__main__':
     app.run(debug=True)
 
-# Legacy Endpoint CURL: curl "http://localhost:5000/fetch-flight-data?acid=WN1&depdate=20241010"
+# Legacy Endpoint CURL: curl "http://localhost:5000/fetch-flight-data?acid=WN1&depdate=20241212"
