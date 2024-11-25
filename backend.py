@@ -1,4 +1,4 @@
-# demo-customer-be
+# app.py
 from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 import requests
@@ -14,6 +14,9 @@ CORS(app)
 
 load_dotenv()
 
-# Running the app
-if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+# Define your routes and logic here
+@app.route('/')
+def home():
+    return jsonify({"message": "Welcome to the backend!"})
+
+# Add more routes as needed
