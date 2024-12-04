@@ -98,3 +98,5 @@ dist
 venv/
 serviceAccountKey.json
 __pycache__/
+search.cpython-312.pyc
+__pycache__/search.cpython-312.pyc
