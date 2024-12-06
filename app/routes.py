@@ -1,7 +1,7 @@
 """routes.py"""
 
 from flask import Blueprint
-from .providers.hotelbeds import get_hotel_availability
+from .providers.hotelbeds_hotels import get_hotel_availability
 
 router = Blueprint("router", __name__)
 

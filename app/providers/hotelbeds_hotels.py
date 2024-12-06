@@ -1,4 +1,4 @@
-"""hotelbeds.py"""
+"""hotelbeds_hotels.py"""
 
 import os
 import time
