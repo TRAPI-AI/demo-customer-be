@@ -1,4 +1,4 @@
-Welcome to the Trapi Demo Backend Repo!
+Welcome to the Trapi Demo Backend Repository!
 
 Here we have a mainly python backend template you can use to test out the Trapi automated integration tool.
 
