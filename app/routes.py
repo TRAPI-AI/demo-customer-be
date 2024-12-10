@@ -1,12 +1,14 @@
 """routes.py"""
 
 from flask import Blueprint
-from .providers.hotelbeds_hotels import get_hotel_availability
+from .utils.aggregator import get_unified_hotel_availability
 
 router = Blueprint("router", __name__)
 
 
-@router.route("/hotelbeds-hotels-booking-hotel-availability", methods=["POST"])
-def hotel_availability():
-    """Hotel Availability Search"""
-    return get_hotel_availability()
+@router.route("/unified-endpoint", methods=["POST"])
+def unified_hotel_availability():
+    """Unified Hotel Availability Search"""
+    return get_unified_hotel_availability()
+
+---
