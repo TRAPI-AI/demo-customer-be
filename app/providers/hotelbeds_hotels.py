@@ -4,20 +4,23 @@ import hashlib
 from flask import request, jsonify, Response
 import requests
 
+
 def generate_signature(api_key, secret, timestamp):
     """Generate a signature for Hotelbeds API authentication."""
     return hashlib.sha256((api_key + secret + timestamp).encode("utf-8")).hexdigest()
+
 
 def transform_to_hotelbeds_request(frontend_data):
     """Transform frontend request data to Hotelbeds API request format."""
     return {
         "stay": {
             "checkIn": frontend_data["stay"]["checkIn"],
-            "checkOut": frontend_data["stay"]["checkOut"]
+            "checkOut": frontend_data["stay"]["checkOut"],
         },
         "occupancies": frontend_data["occupancies"],
-        "geolocation": frontend_data["geolocation"]
+        "geolocation": frontend_data["geolocation"],
     }
+
 
 def get_hotel_availability():
     """Fetch hotel availability from Hotelbeds API."""
@@ -47,7 +50,9 @@ def get_hotel_availability():
             timeout=10,
         )
         print(f"Hotelbeds response status: {response.status_code}")
-        print(f"Hotelbeds response content: {response.content}")
+        print(
+            f"Hotelbeds response content (truncated): {str(response.content)[:200]}..."
+        )
         return Response(
             response.content,
             status=response.status_code,
