@@ -1,5 +1,3 @@
-# Entry point for the backend application
-
 from search import app
 
 if __name__ == "__main__":
