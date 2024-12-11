@@ -4,8 +4,6 @@ import requests
 import json
 import os
 from dotenv import load_dotenv
-import hashlib
-import time
 
 # Initializing Flask app
 app = Flask(__name__)
@@ -13,9 +11,26 @@ CORS(app)
 
 load_dotenv()
 
-# Define your routes and logic here
+SIMTEX_API_KEY = os.getenv('SIMTEX_API_KEY')
+
 @app.route('/')
 def home():
     return jsonify({"message": "Welcome to the backend!"})
 
-# Add more routes as needed
+@app.route('/simtex-esim-search', methods=['POST'])
+def simtex_esim_search():
+    if not request.is_json:
+        return jsonify({"error": "Request must be JSON"}), 400
+
+    data = request.get_json()
+    headers = {
+        'X-Api-Key': SIMTEX_API_KEY,
+        'accept': 'application/json',
+        'content-type': 'application/json'
+    }
+    response = requests.post(
+        'https://api.simtex.io/Quotes?currencyCode=USD',
+        headers=headers,
+        json=data
+    )
+    return Response(response.content, status=response.status_code, content_type=response.headers['Content-Type'])
