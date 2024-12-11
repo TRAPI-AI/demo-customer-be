@@ -13,9 +13,16 @@ CORS(app)
 
 load_dotenv()
 
+
 # Define your routes and logic here
-@app.route('/')
+@app.route("/")
 def home():
     return jsonify({"message": "Welcome to the backend!"})
+
+
+@app.route("/hotel-search")
+def hotelSearch():
+    return jsonify({"message": "Welcome to the backend!"})
+
 
 # Add more routes as needed
