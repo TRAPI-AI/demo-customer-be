@@ -19,3 +19,6 @@ def home():
     return jsonify({"message": "Welcome to the backend!"})
 
 # Add more routes as needed
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
