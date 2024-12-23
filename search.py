@@ -18,7 +18,36 @@ load_dotenv()
 def home():
     return jsonify({"message": "Welcome to the backend!"})
 
-# Add more routes as needed
+# New route for Duffel flights list offers
+@app.route('/duffel-flights-list-offers', methods=['POST'])
+def duffel_flights_list_offers():
+    try:
+        duffel_api_key = os.getenv('DUFFEL_API_KEY')
+        if not duffel_api_key:
+            return jsonify({"error": "Duffel API key not found"}), 500
+
+        headers = {
+            "Accept-Encoding": "gzip",
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Duffel-Version": "v2",
+            "Authorization": f"Bearer {duffel_api_key}"
+        }
+
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Invalid request body"}), 400
+
+        response = requests.post(
+            'https://api.duffel.com/air/offer_requests',
+            headers=headers,
+            json=data
+        )
+
+        return Response(response.content, status=response.status_code, content_type=response.headers['Content-Type'])
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
