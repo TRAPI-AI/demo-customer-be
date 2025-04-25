@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpine.js Integration</title>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+</head>
+<body>
+    <div x-data="formHandler">
+        <form @submit.prevent="submitForm">
+            <div>
+                <label for="field1">Field 1:</label>
+                <input type="text" id="field1" x-model="formData.field1" required>
+                <span x-show="errors.field1" x-text="errors.field1" class="error"></span>
+            </div>
+            <div>
+                <label for="field2">Field 2:</label>
+                <input type="text" id="field2" x-model="formData.field2" required>
+                <span x-show="errors.field2" x-text="errors.field2" class="error"></span>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+        <div x-show="errorMessage" x-text="errorMessage" class="error"></div>
+    </div>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('formHandler', () => ({
+                formData: {
+                    field1: '',
+                    field2: ''
+                },
+                errors: {},
+                errorMessage: '',
+                async submitForm() {
+                    this.errors = {};
+                    this.errorMessage = '';
+
+                    // Basic validation
+                    if (!this.formData.field1) {
+                        this.errors.field1 = 'Field 1 is required.';
+                    }
+                    if (!this.formData.field2) {
+                        this.errors.field2 = 'Field 2 is required.';
+                    }
+
+                    if (Object.keys(this.errors).length > 0) {
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch('http://localhost:5000/new-endpoint', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(this.formData)
+                        });
+
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+
+                        const data = await response.json();
+                        console.log('Success:', data);
+                    } catch (error) {
+                        this.errorMessage = 'An error occurred: ' + error.message;
+                    }
+                }
+            }));
+        });
+    </script>
+</body>
+</html>
