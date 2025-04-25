@@ -1,24 +1,38 @@
-from flask import Flask, request, jsonify, Response
-from flask_cors import CORS
-import requests
-import json
-import os
-from dotenv import load_dotenv
-import hashlib
-import time
+import asyncio
+from providers.existing_provider import ExistingProvider
+from providers.new_provider import NewProvider
 
-# Initializing Flask app
-app = Flask(__name__)
-CORS(app)
+class Aggregator:
+    def __init__(self):
+        self.providers = [ExistingProvider(), NewProvider()]
 
-load_dotenv()
+    async def fetch_from_provider(self, provider, query):
+        try:
+            response = await provider.search(query)
+            if self.validate_response(response):
+                return self.map_response(response)
+        except Exception as e:
+            print(f"Error fetching from provider {provider}: {e}")
+        return None
 
-# Define your routes and logic here
-@app.route('/')
-def home():
-    return jsonify({"message": "Welcome to the backend!"})
+    def validate_response(self, response):
+        # Implement validation logic
+        return 'required_field' in response
 
-# Add more routes as needed
+    def map_response(self, response):
+        # Map the response to a common format
+        return {
+            'field1': response.get('required_field'),
+            'field2': response.get('another_field')
+        }
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    async def agg_text(self, query):
+        tasks = [self.fetch_from_provider(provider, query) for provider in self.providers]
+        results = await asyncio.gather(*tasks)
+        # Filter out None results and combine
+        return [result for result in results if result is not None]
+
+# Example usage
+# aggregator = Aggregator()
+# results = asyncio.run(aggregator.agg_text('search query'))
+# print(results)
